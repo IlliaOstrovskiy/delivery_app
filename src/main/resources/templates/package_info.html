@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../static/css/style4.css" th:href="@{/css/style4.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="header :: header">
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-3 col-md-offset-6">
+            <h1 class="text-center">Package info: <span th:text="${package.newPackage.title}"></span></h1>
+            <form th:action="@{/package_info}" method="post" th:object="${package}" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="control-label text-primary" for="id"></label>
+                    <input type="hidden" class="form-control" th:field="*{id}"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="id"></label>
+                    <input type="hidden" id="id" class="form-control" th:field="*{newPackage.id}"
+                    />
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="title" th:text="#{title}"></label>
+                    <input id="title" class="form-control" th:field="*{newPackage.title}"/>
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('newPackage.title')}" th:text="#{not_valid_title}"
+                            class="validation-message"></label></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="weight" th:text="#{weight} + ', kg'"></label>
+                    <input id="weight" class="form-control" th:field="*{newPackage.weight}"/>
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('newPackage.weight')}" th:text="#{not_valid_weight}"
+                            class="validation-message"></label></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Package type</label>
+                    <select class="form-control" th:field="*{newPackage.type.title}">
+                        <option th:each="package : ${typePackagesList}"
+                                th:value="${package.title}"
+                                th:text="${package.title}"></option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="price" th:text="#{price} + ', $'"></label>
+                    <input id="price" class="form-control" th:field="*{newPackage.price}"/>
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('newPackage.price')}" th:text="#{not_valid_price}"
+                            class="validation-message"></label></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Status: </label>
+                    <select class="form-control" th:field="*{newPackage.status}">
+                        <option th:each="status : ${statusTypes}"
+                                th:value="${status.name()}"
+                                th:text="${status.name()}"></option>
+                        >
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Courier Username</label>
+                    <select class="form-control" th:field="*{courier.username}">
+                        <option th:each="courier : ${courierList}"
+                                th:value="${courier.username}"
+                                th:text="${courier.username}"></option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Sender Username</label>
+                    <select class="form-control" th:field="*{sender.username}">
+                        <option th:each="user : ${userList}"
+                                th:value="${user.username}"
+                                th:text="${user.username}"></option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Recipient Username</label>
+                    <select class="form-control" th:field="*{recipient.username}">
+                        <option th:each="user : ${userList}"
+                                th:value="${user.username}"
+                                th:text="${user.username}"></option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Department Send</label>
+                    <select class="form-control" th:field="*{newPackage.depart_send.depart}">
+                        <option th:each="depart : ${departmentList}"
+                                th:value="${depart.depart}"
+                                th:text="${depart.depart}"></option>
+
+                    </select>
+                    <select class="form-control" th:field="*{newPackage.depart_send.town}">
+                        <option th:each="depart : ${departmentDepList}"
+                                th:value="${depart}"
+                                th:text="${depart}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Department Receive</label>
+                    <select class="form-control" th:field="*{newPackage.depart_receive.depart}">
+                        <option th:each="depart : ${departmentList}"
+                                th:value="${depart.depart}"
+                                th:text="${depart.depart}"></option>
+
+                    </select>
+                    <select class="form-control" th:field="*{newPackage.depart_receive.town}">
+                        <option th:each="depart : ${departmentDepList}"
+                                th:value="${depart}"
+                                th:text="${depart}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="dateSend"></label>
+                    <input type="hidden" id="dateSend" class="form-control" th:field="*{newPackage.dateSend}"
+                    />
+                </div>
+                <!--<div class="form-group">
+                    <label class="control-label text-primary" for="dateReceive"></label>
+                    <input type="hidden" id="dateReceive" class="form-control" th:field="*{dateReceive}"
+                    />
+                </div>-->
+                <!--<div class="form-group">
+                    <label class="control-label text-primary" for="weight">Courier: </label>
+                    <input id="courier" class="form-control" th:field="*{courier.firstName + ' ' + courier.lastName}"/>
+                </div>-->
+                <!--<div class="form-group">
+                    <label class="control-label text-primary">Courier: </label>
+                    <span th:text="${package?.getCourier()?.firstName} + ' ' + ${package?.getCourier()?.lastName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Sender: </label>
+                    <span th:text="${package?.getSender()?.firstName} + ' ' + ${package?.getSender()?.lastName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Recipient : </label>
+                    <span th:text="${package?.getRecipient()?.firstName} + ' ' + ${package?.getRecipient()?.lastName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Shipping department: </label>
+                    <span th:text="${package?.getDepart_send()?.town} + ',' + ${package?.getDepart_send()?.depart}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Receiving department: </label>
+                    <span th:text="${package?.getDepart_receive()?.town} + ',' + ${package?.getDepart_receive()?.depart}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Shipping time: </label>
+                    <span th:text="${#temporals.format(package.dateStart, 'yyyy-MM-dd, HH:mm')}"></span></div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Receipt time: </label>
+                    <span th:text="${#temporals.format(package.dateEnd, 'yyyy-MM-dd, HH:mm')}"></span></div>-->
+                <div class="form-group">
+                    <button sec:authorize="hasRole('ROLE_ADMIN') || hasRole('ROLE_COURIER')" type="submit" class="btn btn-success" th:text="#{update_but}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

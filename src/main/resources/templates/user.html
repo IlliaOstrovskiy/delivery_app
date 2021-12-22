@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../static/css/style4.css" th:href="@{/css/style4.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:replace="header :: header">
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <form th:action="@{/update_user}" method="post" th:object="${user}" enctype="multipart/form-data">
+                <h1 class="text-center"><span th:text="${user.username}"></span> cabinet</h1>
+                <div class="form-group">
+                    <input type="hidden" id="id" class="form-control" th:field="*{id}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="firstName" th:text="#{firstname}"></label>
+                    <input id="firstName" class="form-control" th:field="*{firstName}"/>
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('firstName')}" th:text="#{not_valid_firstname}"
+                            class="validation-message"></label></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="lastName" th:text="#{lastname}"></label>
+                    <input id="lastName" class="form-control" th:field="*{lastName}"/>
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('lastName')}" th:text="#{not_valid_lastname}"
+                            class="validation-message"></label></p>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="email" th:text="#{email}"></label>
+                    <input id="email" class="form-control" th:field="*{email}"
+                    />
+                    <p class="text-danger"><label
+                            th:if="${#fields.hasErrors('email')}" th:text="#{not_valid_email}"
+                            class="validation-message"></label></p>
+                </div>
+
+                <div class="form-group">
+                    <input type="hidden" id="username" class="form-control" th:field="*{username}"/>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" id="password" class="form-control" th:field="*{password}"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<h3 class="row justify-content-center">Past courses</h3>
+<div class="container my-7">
+    <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Date start</th>
+            <th scope="col">Date end</th>
+            <th scope="col">Mark</th>
+            <th scope="col">Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pastCourse : ${pastCourse}">
+            <td><span th:text="${pastCourse.getCourse().title}"></span></td>
+            <td><span th:text="${#temporals.format(pastCourse.getCourse().dateStart, 'yyyy-MM-dd, HH:mm')}"></span>
+            </td>
+            <td><span th:text="${#temporals.format(pastCourse.getCourse().dateEnd, 'yyyy-MM-dd, HH:mm')}"></span>
+            </td>
+            <td><span th:text="${pastCourse.getMark()}"></span></td>
+
+            <td sec:authorize="hasRole('ROLE_ADMIN')"><span class=" btn btn-primary d-flex justify-content-center">
+                <a th:href="@{/set_mark/{id}(id=${pastCourse.id})}">Edit rating</a></span></td>
+
+        </tr>
+        <tr th:if="${#lists.isEmpty(pastCourse)}" class="btn-warning">
+            <td colspan="7" align="center">Not found</td>
+        </tr>
+        </tbody>
+    </table>
+</div>-->
+</body>
+</html>

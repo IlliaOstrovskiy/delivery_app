@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Add department</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="" th:href="@{/}">
+        Delivery
+    </a>
+    <a class="navbar-brand" href="?language=ua"><span class="mb-0 h6">UA</span></a>
+    <a class="navbar-brand" href="?language=en"><span class="mb-0 h6">ENG</span></a>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="navbar-brand" href=""><span sec:authentication="name"></span></a>
+            </li>
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="navbar-brand" th:href="@{/login}" th:text="#{login}"></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <div th:if="${param.success}">
+                <div class="alert alert-info" th:text="#{success_mes}"></div>
+            </div>
+            <h1 class="text-center" th:text="#{courier_form}"></h1>
+
+            <form th:action="@{/add_department}" method="post" th:object="${newDepartment}">
+                <div class="alert alert-danger"
+                     role="alert" th:if="${departErr}"
+                     th:text="#{${departErr}}">
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="town" th:text="#{depart_town}"></label>
+                    <input id="town" class="form-control" th:field="*{town}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="depart" th:text="#{depart_depart}"></label>
+                    <input id="depart" class="form-control" th:field="*{depart}"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success" th:text="#{add_depart}"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

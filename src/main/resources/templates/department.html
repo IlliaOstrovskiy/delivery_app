@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="header :: header">
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <div th:if="${param.success}">
+                <div class="alert alert-info" th:text="#{success_mes}"></div>
+            </div>
+            <h1 class="text-center">Add Courier</h1>
+            <form th:action="@{/update_depart}" method="post" th:object="${department}">
+                <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                    <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p></div>
+                <div class="form-group">
+                    <input type="hidden" id="id" class="form-control" th:field="*{id}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="town">Town: </label>
+                    <input id="town" class="form-control" th:field="*{town}"/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary" for="depart">Department number: </label>
+                    <input id="depart" class="form-control" th:field="*{depart}"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

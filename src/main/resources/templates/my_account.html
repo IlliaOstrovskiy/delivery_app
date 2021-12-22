@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="../static/css/style4.css" th:href="@{/css/style4.css}" rel="stylesheet"/>
+</head>
+<body>
+<div th:replace="header :: header">
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <form th:action="@{/my_account}" method="post" th:object="${user}" enctype="multipart/form-data">
+                <h1 class="text-center" th:text="${user.username} + ' cabinet'"></h1>
+                <div class="form-group">
+                    <label class="control-label text-primary">Firstname: </label>
+                    <span th:text="${user.firstName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Lastname: </label>
+                    <span th:text="${user.lastName}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">E-mail: </label>
+                    <span th:text="${user.email}"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label text-primary">Username: </label>
+                    <span th:text="${user.username}"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <h3 class="row justify-content-center">Packages sent by me</h3>
+    <div class="container my-7 row justify-content-center">
+        <table class="table table-striped table-bordered" style="width: 75%">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Date Send</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="package : ${sentPackages}">
+                <td><span class="d-flex justify-content-center" th:text="${package.title}"></span></td>
+                <td><span class="d-flex justify-content-center"
+                          th:text="${#temporals.format(package.dateSend, 'yyyy-MM-dd, HH:mm')}"></span></td>
+                <td><span class="d-flex justify-content-center" th:text="${package.price}"></span></td>
+                <td><span class="d-flex justify-content-center" th:text="${package.status}"></span></td>
+                <td><span><a class="btn btn-primary d-flex justify-content-center"
+                             th:href="@{/package_info/{id}(id=${package.id})}"
+                             th:text="#{more_package_info}"></a></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 class="row justify-content-center">Packages coming to me</h3>
+    <div class="container my-7 row justify-content-center" >
+        <table class="table table-striped table-bordered" style="width: 75%">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Date Send</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+                <th scope="col">Info</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="package : ${myRecipientPackages}">
+                <td><span class="d-flex justify-content-center" th:text="${package.title}"></span></td>
+                <td><span class="d-flex justify-content-center"
+                          th:text="${#temporals.format(package.dateSend, 'yyyy-MM-dd, HH:mm')}"></span></td>
+                <td><span class="d-flex justify-content-center" th:text="${package.price}"></span></td>
+                <td><span class="d-flex justify-content-center" th:text="${package.status}"></span></td>
+                <td><span><a class="btn btn-primary d-flex justify-content-center"
+                             th:href="@{/package_info/{id}(id=${package.id})}"
+                             th:text="#{more_package_info}"></a></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 class="row justify-content-center">Archive of received parcels</h3>
+    <div class="container my-7 row justify-content-center" >
+        <table class="table table-striped table-bordered" style="width: 75%">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Date Send</th>
+                <th scope="col">Date Receive</th>
+                <th scope="col">Status</th>
+                <th scope="col">Info</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="package : ${myArchiveReceivedPackages}">
+                <td><span class="d-flex justify-content-center" th:text="${package.title}"></span></td>
+                <td><span class="d-flex justify-content-center"
+                          th:text="${#temporals.format(package.dateSend, 'yyyy-MM-dd, HH:mm')}"></span></td>
+                <td><span class="d-flex justify-content-center"
+                          th:text="${#temporals.format(package.dateReceive, 'yyyy-MM-dd, HH:mm')}"></span></td>
+                <td><span class="d-flex justify-content-center" th:text="${package.status}"></span></td>
+                <td><span><a class="btn btn-primary d-flex justify-content-center"
+                             th:href="@{/package_info/{id}(id=${package.id})}"
+                             th:text="#{more_package_info}"></a></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
